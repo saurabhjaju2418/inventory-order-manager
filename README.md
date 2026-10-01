@@ -19,7 +19,7 @@ Stockroom gives small retail operations one place to review stock, catch product
 
 ## Current release
 
-The interactive demo supports product creation, category and text filtering, stock adjustments, order fulfillment with stock checks, and a movement log. Demo state persists in this browser with `localStorage`. No database, user accounts, suppliers, or live warehouse integrations are connected yet; use sample data only.
+The interactive demo supports product creation, category and text filtering, stock adjustments, order fulfillment with stock checks, and a movement log. Demo state persists in this browser with `localStorage`. A reference Supabase/Postgres migration defines tenant-scoped tables, row-level policies, and atomic fulfillment, but the UI is not connected to it yet. Use sample data only.
 
 ## Run locally
 
@@ -37,6 +37,8 @@ Open [http://localhost:5173](http://localhost:5173).
 - Atomic order reservation and fulfillment transactions with idempotency keys.
 - Low-stock events, supplier purchase orders, and warehouse location support.
 - Operator audit log and role-based permissions for stock corrections.
+
+The initial reference migration is in `supabase/migrations/`.
 
 ## Data model sketch
 
