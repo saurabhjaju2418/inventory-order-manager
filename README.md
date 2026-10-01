@@ -1,44 +1,56 @@
 <div align="center">
 
-<img src="assets/project-banner.svg" alt="Animated Stockroom — Inventory & Order Manager banner" width="900" />
+<img src="assets/project-banner.svg" alt="Animated Stockroom inventory and order banner" width="900" />
 
 # Stockroom — Inventory & Order Manager
 
 **Accurate stock, reliable fulfillment, and fewer inventory surprises.**
 
-React · PostgreSQL · Supabase · Tailwind CSS
-
-![Project status](https://img.shields.io/badge/status-in%20progress-7a8b71)
+[![React](https://img.shields.io/badge/React-19-149eca?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6-646cff?logo=vite)](https://vite.dev/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-2d6a58.svg)](LICENSE)
 
 </div>
 
 ## Product scope
 
-Inventory ledger and order lifecycle with explicit reservations, adjustments, and low-stock signals.
+Stockroom gives small retail operations one place to review stock, catch products below their reorder point, receive stock, and move orders through fulfillment.
 
-## Architecture notes
+## Current release
 
-Postgres constraints protect quantities; stock movements form the audit ledger; order placement reserves stock transactionally; RLS scopes operator access.
+The interactive demo supports product creation, category and text filtering, stock adjustments, order fulfillment with stock checks, and a movement log. Demo state persists in this browser with `localStorage`. No database, user accounts, suppliers, or live warehouse integrations are connected yet; use sample data only.
 
-### Data model sketch
+## Run locally
 
-    products(id, sku, name, reorder_point) · stock_movements(id, product_id, delta, reason, order_id, created_at) · orders(id, status, created_at)
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173).
+
+## Planned production architecture
+
+- Supabase Auth and tenant-scoped PostgreSQL tables with row-level security.
+- Append-only `stock_movements` ledger; current stock derived or reconciled from ledger entries.
+- Atomic order reservation and fulfillment transactions with idempotency keys.
+- Low-stock events, supplier purchase orders, and warehouse location support.
+- Operator audit log and role-based permissions for stock corrections.
+
+## Data model sketch
+
+`products(id, tenant_id, sku, name, reorder_point, unit_cost)`
+
+`stock_movements(id, product_id, delta, reason, order_id, actor_id, created_at)`
+
+`orders(id, tenant_id, status, idempotency_key, created_at)`
 
 ## Stack
 
-React · PostgreSQL · Supabase · Tailwind CSS
-
-## Build sequence
-
-1. Catalog and stock ledger
-2. Order reservation and release
-3. Reorder rules and operations view
-4. Policies and audit trail
-
-## Current status
-
-Public repository with an animated README. Product code is being built incrementally, one project at a time. This page records the planned product boundary and engineering milestones.
+React · TypeScript · Vite · Lucide · CSS · browser `localStorage`
 
 ## License
 
-MIT.
+MIT. See [LICENSE](LICENSE).
+
